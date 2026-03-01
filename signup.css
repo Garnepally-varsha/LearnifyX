@@ -1,0 +1,136 @@
+/* Reset default browser styles */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Page background */
+body{
+  background:#142c52;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:40px;
+}
+
+/* Back Arrow Button */
+.back-button {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    font-size: 28px;
+    text-decoration: none;
+    color: white;
+    background-color: #1f3b63;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
+/* Logo text */
+.logo{
+  color:#b7e1ff;
+  font-size:22px;
+  margin-bottom:20px;
+  font-weight:bold;
+}
+
+/* Signup Card Container */
+.card{
+  background:#f4f4f4;
+  width:340px;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Title */
+.title{
+  font-size:20px;
+  margin-bottom:20px;
+  color:#333;
+}
+
+/* Labels */
+label{
+  display:block;
+  font-size:14px;
+  margin-top:10px;
+  margin-bottom:5px;
+  color:#333;
+}
+
+/* Input fields */
+input{
+  width:100%;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ddd;
+  margin-bottom:10px;
+  outline:none;
+  transition:0.2s;
+}
+
+input:focus{
+  border-color:#2b7cff;
+}
+
+/* Domain tags container */
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+  margin-bottom:15px;
+}
+
+/* Individual tags */
+.tags span{
+  background:#e9ecef;
+  padding:7px 12px;
+  border-radius:15px;
+  font-size:12px;
+  color:#555;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.tags span:hover{
+  background:#d6e4ff;
+}
+
+/* Submit Button */
+.submit-btn{
+  width:100%;
+  background:#ff7a1a;
+  border:none;
+  color:white;
+  padding:12px;
+  border-radius:7px;
+  font-size:15px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.submit-btn:hover{
+  background:#e96a10;
+}
+
+/* Bottom login text */
+.login-text{
+  text-align:center;
+  margin-top:15px;
+  font-size:13px;
+}
+
+.login-text a{
+  color:#2b7cff;
+  text-decoration:none;
+}
+
+.login-text a:hover{
+  text-decoration:underline;
+}
