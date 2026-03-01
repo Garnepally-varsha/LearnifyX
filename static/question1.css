@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #162B4D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    color: white;
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    font-size: 22px;
+    text-decoration: none;
+    color: white;
+    background-color: #1f3b63;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+/* Logo */
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Progress Bar */
+.progress {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.step {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #2d4a75;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step.active {
+    background-color: #ff7a1a;
+}
+
+.line {
+    width: 50px;
+    height: 3px;
+    background-color: #2d4a75;
+}
+
+/* Card */
+.card {
+    background-color: #f4f4f4;
+    width: 420px;
+    padding: 30px;
+    border-radius: 15px;
+    color: black;
+}
+
+.subtitle {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Options */
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.option input {
+    margin-top: 5px;
+}
+
+/* Button */
+.next-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff7a1a;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}

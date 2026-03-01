@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LearnifyX - Step 3</title>
+
+    <!-- Flask CSS Linking -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='question3.css') }}">
+</head>
+<body>
+
+<a href="/question2" class="back-button">←</a>
+
+<div class="logo">
+    📘 <span>LearnifyX</span>
+</div>
+
+<div class="progress">
+    <div class="step active">1</div>
+    <div class="line"></div>
+    <div class="step active">2</div>
+    <div class="line"></div>
+    <div class="step active">3</div>
+</div>
+
+<div class="card">
+
+    <h2>Step 3: How Much Time Can You Dedicate Daily?</h2>
+    <p class="subtitle">
+        We'll adjust your learning pace based on your availability.
+    </p>
+
+    <form action="/question3" method="POST">
+
+        <label class="option">
+            <input type="radio" name="time" value="15-30" required>
+            <div>
+                <strong>15–30 Minutes</strong>
+                <p>Short daily sessions for steady progress</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="time" value="30-60">
+            <div>
+                <strong>30–60 Minutes</strong>
+                <p>Balanced sessions to cover more topics</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="time" value="1-2">
+            <div>
+                <strong>1–2 Hours</strong>
+                <p>Deep learning sessions for faster growth</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="time" value="2plus">
+            <div>
+                <strong>2+ Hours</strong>
+                <p>Intensive study for rapid skill building</p>
+            </div>
+        </label>
+
+        <button type="submit" class="next-btn">Get Started</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

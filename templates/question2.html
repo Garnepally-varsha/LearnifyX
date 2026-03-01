@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LearnifyX - Step 2</title>
+
+    <!-- Flask CSS Linking -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='question2.css') }}">
+</head>
+<body>
+
+<a href="/question1" class="back-button">←</a>
+
+<div class="logo">
+    📘 <span>LearnifyX</span>
+</div>
+
+<div class="progress">
+    <div class="step active">1</div>
+    <div class="line"></div>
+    <div class="step active">2</div>
+    <div class="line"></div>
+    <div class="step">3</div>
+</div>
+
+<div class="card">
+
+    <h2>Step 2: How Do You Prefer to Learn?</h2>
+    <p class="subtitle">
+        Choose the format that matches your learning style.
+    </p>
+
+    <form action="/question2" method="POST">
+
+        <label class="option">
+            <input type="radio" name="preference" value="Video" required>
+            <div>
+                <strong>Video Lectures</strong>
+                <p>Watch expert-led tutorials and walkthroughs</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="preference" value="Text">
+            <div>
+                <strong>Text & Articles</strong>
+                <p>Read detailed written guides and documentation</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="preference" value="Slides">
+            <div>
+                <strong>Presentations</strong>
+                <p>Follow structured slide decks and visual aids</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="preference" value="Mixed">
+            <div>
+                <strong>Mixed Mode</strong>
+                <p>A combination of all formats</p>
+            </div>
+        </label>
+
+        <button type="submit" class="next-btn">Next →</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

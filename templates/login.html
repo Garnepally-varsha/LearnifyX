@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LearnifyX - Login</title>
+
+    <!-- Flask CSS Linking -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+
+    <!-- Back Arrow Button -->
+    <a href="/" class="back-button">←</a>
+
+    <!-- Logo -->
+    <div class="logo">
+        📘 <span>LearnifyX</span>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+
+        <h2><span class="icon">↪</span> Welcome Back</h2>
+
+        <!-- Proper Flask Form -->
+        <form method="POST" action="/login">
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="••••••••" required>
+
+            <button type="submit" class="login-btn">Login</button>
+
+        </form>
+
+        <p class="signup-text">
+            Don't have an account? 
+            <a href="/signup">Sign up</a>
+        </p>
+
+    </div>
+
+</body>
+</html>
