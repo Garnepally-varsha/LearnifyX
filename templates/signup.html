@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LearnifyX Signup</title>
+
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+</head>
+<body>
+  
+  
+  <a href="/" class="back-button">←</a>
+
+  <div class="logo">
+    📘 <span>LearnifyX</span>
+  </div>
+
+  <div class="card">
+
+    <h2 class="title">👤 Create Your Account</h2>
+
+    
+    <form method="POST" action="/signup">
+
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="John Doe" required>
+
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+
+      <label>Password</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+
+      <label>Select Your Domain</label>
+
+      <select name="domain" required style="width:100%; padding:10px; border-radius:6px; margin-bottom:15px;">
+        <option value="">-- Select Domain --</option>
+        <option value="DSA">Data Structures & Algorithms</option>
+        <option value="AI">AI / Machine Learning</option>
+        <option value="Full Stack">Full Stack Development</option>
+        <option value="Data Science">Data Science</option>
+      </select>
+
+      <button type="submit" class="submit-btn">Create Account</button>
+
+    </form>
+
+    <p class="login-text">
+      Already have an account? <a href="/login">Login</a>
+    </p>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LearnifyX - Step 3</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='question3.css') }}">
+</head>
+<body>
+
+<a href="/question3" class="back-button">←</a>
+
+<div class="logo">
+    📘 <span>LearnifyX</span>
+</div>
+
+<div class="progress">
+    <div class="step active">1</div>
+    <div class="line"></div>
+    <div class="step active">2</div>
+    <div class="line"></div>
+    <div class="step active">3</div>
+</div>
+
+<div class="card">
+
+    <h2>Step 3: Select Your Skill Level</h2>
+    <p class="subtitle">
+        Choose your current experience level.
+    </p>
+
+    <form action="/question4" method="POST">
+
+        <label class="option">
+            <input type="radio" name="level" value="Beginner" required>
+            <div>
+                <strong>Beginner</strong>
+                <p>New to the subject and starting from basics</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="level" value="Intermediate">
+            <div>
+                <strong>Intermediate</strong>
+                <p>Familiar with basics and some practical exposure</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="level" value="Advanced">
+            <div>
+                <strong>Advanced</strong>
+                <p>Comfortable with concepts and implementation</p>
+            </div>
+        </label>
+
+        <label class="option">
+            <input type="radio" name="level" value="Expert">
+            <div>
+                <strong>Expert</strong>
+                <p>Strong understanding and real-world experience</p>
+            </div>
+        </label>
+
+        <button type=\"submit\" class=\"next-btn\">Generate My Path →</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
