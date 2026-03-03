@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LearnifyX - Step 2</title>
+    <title>LearnifyX - Step 1</title>
 
     <!-- Flask CSS Linking -->
     <link rel="stylesheet" href="{{ url_for('static', filename='question2.css') }}">
 </head>
 <body>
 
-<a href="/question1" class="back-button">←</a>
+<a href="/signup" class="back-button">←</a>
 
 <div class="logo">
     📘 <span>LearnifyX</span>
@@ -17,14 +17,14 @@
 <div class="progress">
     <div class="step active">1</div>
     <div class="line"></div>
-    <div class="step active">2</div>
+    <div class="step">2</div>
     <div class="line"></div>
     <div class="step">3</div>
 </div>
 
 <div class="card">
 
-    <h2>Step 2: How Do You Prefer to Learn?</h2>
+    <h2>Step 1: How Do You Prefer to Learn?</h2>
     <p class="subtitle">
         Choose the format that matches your learning style.
     </p>
@@ -32,7 +32,7 @@
     <form action="/question2" method="POST">
 
         <label class="option">
-            <input type="radio" name="preference" value="Video" required>
+            <input type="radio" name="preference" value="video" required>
             <div>
                 <strong>Video Lectures</strong>
                 <p>Watch expert-led tutorials and walkthroughs</p>
@@ -40,7 +40,7 @@
         </label>
 
         <label class="option">
-            <input type="radio" name="preference" value="Text">
+            <input type="radio" name="preference" value="text">
             <div>
                 <strong>Text & Articles</strong>
                 <p>Read detailed written guides and documentation</p>
@@ -48,7 +48,7 @@
         </label>
 
         <label class="option">
-            <input type="radio" name="preference" value="Slides">
+            <input type="radio" name="preference" value="slides">
             <div>
                 <strong>Presentations</strong>
                 <p>Follow structured slide decks and visual aids</p>
@@ -56,7 +56,7 @@
         </label>
 
         <label class="option">
-            <input type="radio" name="preference" value="Mixed">
+            <input type="radio" name="preference" value="mix">
             <div>
                 <strong>Mixed Mode</strong>
                 <p>A combination of all formats</p>

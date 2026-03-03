@@ -1,0 +1,94 @@
+from mongodb import materials_collection, users_collection
+from ai_engine import generate_learning_path
+
+# Test 1: Check if materials exist in database
+print("=" * 50)
+print("TEST 1: Check materials in database")
+print("=" * 50)
+
+total_materials = materials_collection.count_documents({})
+print(f"Total materials in database: {total_materials}")
+
+# Check domains
+domains = materials_collection.distinct("domain")
+print(f"\nDomains in database: {domains}")
+
+# Check levels
+levels = materials_collection.distinct("level")
+print(f"Levels in database: {levels}")
+
+# Check types
+types = materials_collection.distinct("type")
+print(f"Types in database: {types}")
+
+# Sample documents
+print(f"\nSample documents (first 3):")
+samples = list(materials_collection.find().limit(3))
+for i, doc in enumerate(samples, 1):
+    print(f"\n{i}. {doc.get('title')}")
+    print(f"   Domain: {doc.get('domain')}, Level: {doc.get('level')}, Type: {doc.get('type')}")
+
+# Test 2: Test with a real user
+print("\n" + "=" * 50)
+print("TEST 2: Test with real user data")
+print("=" * 50)
+
+test_user = users_collection.find_one({"email": "garnepallyvarshagoud@gmail.com"})
+if test_user:
+    print(f"\nFound test user:")
+    print(f"  Email: {test_user.get('email')}")
+    print(f"  Domain: {test_user.get('domain')}")
+    print(f"  Level: {test_user.get('level')}")
+    print(f"  Preference: {test_user.get('preference')}")
+    
+    # Test AI model
+    print(f"\nGenerating learning path...")
+    materials = generate_learning_path(test_user)
+    print(f"Materials found: {len(materials)}")
+    
+    if materials:
+        print("\nFirst 3 materials:")
+        for i, mat in enumerate(materials[:3], 1):
+            print(f"  {i}. {mat.get('title')} - Domain: {mat.get('domain')}, Level: {mat.get('level')}")
+    else:
+        print("\n⚠ No materials found. Debugging query...")
+        
+        # Debug the query
+        level_map = {"Beginner": 1, "Intermediate": 2, "Advanced": 3, "Expert": 4}
+        numeric_level = level_map.get(test_user.get("level"), 1)
+        
+        query = {
+            "domain": test_user.get("domain"),
+            "level": {"$lte": numeric_level}
+        }
+        
+        print(f"\nQuery being used: {query}")
+        
+        # Check if any materials match
+        count = materials_collection.count_documents(query)
+        print(f"Materials matching query: {count}")
+        
+        # Check each condition separately
+        print(f"\nTesting individual conditions:")
+        
+        # Test domain only
+        domain_count = materials_collection.count_documents({"domain": test_user.get("domain")})
+        print(f"  Materials with domain '{test_user.get('domain')}': {domain_count}")
+        
+        # Test level only
+        level_count = materials_collection.count_documents({"level": {"$lte": numeric_level}})
+        print(f"  Materials with level <= {numeric_level}: {level_count}")
+        
+        # Get sample materials for this domain
+        sample = materials_collection.find_one({"domain": test_user.get("domain")})
+        if sample:
+            print(f"\nSample material for domain '{test_user.get('domain')}':")
+            print(f"  Title: {sample.get('title')}")
+            print(f"  Domain: {sample.get('domain')}")
+            print(f"  Level: {sample.get('level')} (type: {type(sample.get('level')).__name__})")
+            print(f"  Type: {sample.get('type')}")
+        else:
+            print(f"\n✗ NO materials found for domain '{test_user.get('domain')}'")
+
+else:
+    print("✗ No test user found. Create a user first!")
