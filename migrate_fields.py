@@ -1,6 +1,5 @@
 from mongodb import users_collection
 
-# Migrate old field names to new ones
 users_to_migrate = users_collection.find({"goal": {"$exists": True}, "domain": None})
 
 count = 0
@@ -19,7 +18,7 @@ for user in users_to_migrate:
 
 print(f"\n✅ Total users migrated: {count}")
 
-# Verify
+
 print("\n--- Verification ---")
 test_user = users_collection.find_one({"email": "garnepallyvarshagoud@gmail.com"})
 print(f"Domain: {test_user.get('domain')}")

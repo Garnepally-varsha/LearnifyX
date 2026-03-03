@@ -9,27 +9,54 @@ def generate_learning_path(user):
         "Expert": 4
     }
 
-    user_level = user.get("level", "").capitalize()
+    user_level = user.get("level", "Beginner")
     numeric_level = level_map.get(user_level, 1)
 
-    domain = user.get("domain", "")
-    preference = user.get("preference", "mix")
+    domain = user.get("domain", "").strip()
+    preference = user.get("preference", "").strip().lower()
 
-    query = {
-        "domain": {"$regex": f"^{domain}$", "$options": "i"},
-        "level": {"$lte": numeric_level}
+    
+    preference_map = {
+        "text": ["pdf"],
+        "slides": ["ppt"],
+        "video": ["video"],
+        "mixed": ["pdf", "ppt", "video"]
     }
 
-    if preference and preference.lower() != "mix":
-        query["type"] = {"$regex": f"^{preference}$", "$options": "i"}
+    allowed_types = preference_map.get(preference, ["pdf", "ppt", "video"])
 
-    materials = list(
-        materials_collection
-        .find(query)
-        .sort("level", 1)
-    )
+    print("User Domain:", domain)
+    print("User Level:", numeric_level)
+    print("User Preference:", preference)
 
-    print("Mongo Query:", query)
-    print("Materials Found:", materials)
+    
+    materials = list(materials_collection.find({
+        "domain": {"$regex": domain, "$options": "i"}
+    }))
 
-    return materials
+    print("After domain filter:", len(materials))
+
+    
+    filtered = []
+    for m in materials:
+        mat_level = m.get("level")
+
+        if isinstance(mat_level, int):
+            if mat_level <= numeric_level:
+                filtered.append(m)
+
+        elif isinstance(mat_level, str):
+            if level_map.get(mat_level, 1) <= numeric_level:
+                filtered.append(m)
+
+    print("After level filter:", len(filtered))
+
+
+    final = []
+    for m in filtered:
+        if m.get("type", "").lower() in allowed_types:
+            final.append(m)
+
+    print("After preference filter:", len(final))
+
+    return final

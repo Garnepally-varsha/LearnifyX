@@ -10,10 +10,6 @@ app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 
 
 
-
-
-# -------------------- VALIDATION FUNCTIONS --------------------
-
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(pattern, email)
@@ -28,42 +24,33 @@ def is_strong_password(password):
     if not re.search(r"[0-9]", password):
         return False
     return True
-# -------------------- HOME --------------------
+
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# -------------------- SIGNUP --------------------
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
 
-        # Get all form data
-        name = request.form.get("name")
-        email = request.form.get("email")
-        password = request.form.get("password")
-        domain = request.form.get("domain")
+        name = (request.form.get("name") or "").strip()
+        email = (request.form.get("email") or "").strip()
+        password = (request.form.get("password") or "").strip()
+        domain = (request.form.get("domain") or "").strip()
 
-        # Add .strip() safely
-        name = (name or "").strip()
-        email = (email or "").strip()
-        password = (password or "").strip()
-        domain = (domain or "").strip()
-
-        # Validate empty fields
         if not name or not email or not password or not domain:
             return "All fields are required!"
 
-        # Validate email format
         if not is_valid_email(email):
             return "Invalid email format!"
 
-        # Validate password strength
         if not is_strong_password(password):
             return "Password must be at least 8 characters with uppercase, lowercase and number."
 
-        # Check if user already exists
         existing_user = users_collection.find_one({"email": email})
         if existing_user:
             return "User already exists! Please login."
@@ -85,12 +72,14 @@ def signup():
 
     return render_template("signup.html")
 
-# -------------------- LOGIN --------------------
+
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form.get("email").strip()
-        password = request.form.get("password").strip()
+        email = (request.form.get("email") or "").strip()
+        password = (request.form.get("password") or "").strip()
 
         if not email or not password:
             return "Please enter email and password."
@@ -106,7 +95,6 @@ def login():
         session["email"] = email
         session["name"] = user["name"]
 
-        # 🔥 Check if user has completed questionnaire
         if user.get("level"):
             return redirect("/generate-path")
         else:
@@ -115,11 +103,24 @@ def login():
     return render_template("login.html")
 
 
-# -------------------- QUESTION 2 --------------------
+
 @app.route("/question2", methods=["GET", "POST"])
 def question2():
     if "email" not in session:
         return redirect("/login")
+
+
+    users_collection.update_one(
+        {"email": session["email"]},
+        {
+            "$unset": {
+                "learning_path": "",
+                "completed_courses": "",
+                "level": "",
+                "preference": ""
+            }
+        }
+    )
 
     if request.method == "POST":
         pref = request.form.get("preference", "")
@@ -129,7 +130,7 @@ def question2():
     return render_template("question2.html")
 
 
-# -------------------- QUESTION 3 --------------------
+
 @app.route("/question3", methods=["GET", "POST"])
 def question3():
     if "email" not in session:
@@ -142,7 +143,7 @@ def question3():
     return render_template("question3.html")
 
 
-# -------------------- QUESTION 4 --------------------
+
 @app.route("/question4", methods=["GET", "POST"])
 def question4():
     if "email" not in session:
@@ -151,7 +152,6 @@ def question4():
     if request.method == "POST":
         level = request.form.get("level")
 
-        # Update user document with all onboarding data
         users_collection.update_one(
             {"email": session["email"]},
             {
@@ -166,11 +166,8 @@ def question4():
 
     return render_template("question4.html")
 
-# -------------------- TEST ROUTE --------------------
-@app.route("/test")
-def test():
-    users_collection.insert_one({"test": "working"})
-    return "Inserted Test Data"
+
+
 
 @app.route("/generate-path")
 def generate_path():
@@ -183,7 +180,6 @@ def generate_path():
     if not user:
         return "User not found"
 
-    # ✅ Check for correct required fields
     required_fields = ["domain", "preference", "level"]
     missing_fields = [f for f in required_fields if f not in user]
 
@@ -193,19 +189,53 @@ def generate_path():
     try:
         materials = generate_learning_path(user)
 
-        print("Generated Materials:", materials)
 
-        if not materials:
-            return render_template(
-                "learning_path.html",
-                courses=[],
-                message="No courses found matching your preferences."
-            )
+        users_collection.update_one(
+            {"email": session["email"]},
+            {
+                "$set": {
+                    "learning_path": [str(m["_id"]) for m in materials]
+                }
+            }
+        )
 
-        return render_template("learning_path.html", courses=materials)
+        user = users_collection.find_one({"email": session["email"]})
+
+        learning_path = user.get("learning_path", [])
+        completed = user.get("completed_courses", [])
+
+        total = len(learning_path)
+        done = len(completed)
+
+        percentage = int((done / total) * 100) if total > 0 else 0
+
+        return render_template(
+    "learning_path.html",
+    courses=materials,
+    progress=percentage,
+    completed_all=(percentage == 100)
+)
 
     except Exception as e:
         return f"Error generating learning path: {str(e)}"
+
+
+
+@app.route("/complete/<course_id>")
+def complete_course(course_id):
+
+    if "email" not in session:
+        return redirect("/login")
+
+    users_collection.update_one(
+        {"email": session["email"]},
+        {"$addToSet": {"completed_courses": course_id}}
+    )
+
+    return redirect("/generate-path")
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=False)
